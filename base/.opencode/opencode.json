@@ -1,0 +1,190 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "opencode-devcontainers",
+    "opencode-pty",
+    "@franlol/opencode-md-table-formatter@latest",
+    "opencode-websearch-cited@latest",
+    "opencode-conductor-plugin"
+  ],
+  "lsp": {
+    "ansible": {
+      "command": [
+        "ansible-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        "yaml",
+        "yml"
+      ]
+    },
+    "golang": {
+      "command": [
+        "gopls",
+        "serve"
+      ],
+      "extensions": [
+        "go"
+      ]
+    }
+  },
+  "permission": {
+    "*": {
+      "*": "allow"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ctx7sk-a1c1beb1-b430-4f63-b8d3-abca285c6733"
+      }
+    }
+  },
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "permission": {
+        "*": {
+          "*": "allow"
+        }
+      },
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "grep": true,
+        "glob": true,
+        "list": true,
+        "lsp": true,
+        "websearch": true,
+        "cited-websearch": true,
+        "apply_patch": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "question": true
+      }
+    },
+    "ansible-expert": {
+      "mode": "subagent",
+      "permission": {
+        "*": {
+          "*": "allow"
+        }
+      },
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "grep": true,
+        "glob": true,
+        "list": true,
+        "lsp": true,
+        "websearch": true,
+        "cited-websearch": true,
+        "apply_patch": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "question": true
+      }
+    },
+    "git-expert": {
+      "mode": "subagent",
+      "permission": {
+        "*": {
+          "*": "allow"
+        }
+      },
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "grep": true,
+        "glob": true,
+        "list": true,
+        "lsp": true,
+        "websearch": true,
+        "cited-websearch": true,
+        "apply_patch": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "question": true
+      },
+      "gsd-executor": {
+        "mode": "subagent",
+        "permission": {
+          "*": {
+            "*": "allow"
+          }
+        },
+        "tools": {
+          "write": true,
+          "edit": true,
+          "bash": true,
+          "read": true,
+          "grep": true,
+          "glob": true,
+          "list": true,
+          "lsp": true,
+          "websearch": true,
+          "cited-websearch": true,
+          "apply_patch": true,
+          "skill": true,
+          "todowrite": true,
+          "webfetch": true,
+          "question": true
+        }
+      },
+      "gsd-planner": {
+        "mode": "subagent",
+        "permission": {
+          "*": {
+            "*": "allow"
+          }
+        },
+        "tools": {
+          "write": true,
+          "edit": true,
+          "bash": true,
+          "read": true,
+          "grep": true,
+          "glob": true,
+          "list": true,
+          "lsp": true,
+          "websearch": true,
+          "cited-websearch": true,
+          "apply_patch": true,
+          "skill": true,
+          "todowrite": true,
+          "webfetch": true,
+          "question": true
+        }
+      }
+    }
+  },
+  "provider": {
+    "qwen-mbp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "QWEN-MBP Provider",
+      "options": {
+        "baseURL": "http://192.168.151.31:8080/v1"
+      },
+      "models": {
+        "qwen-next": {
+          "name": "QWEN-Next Model",
+          "limit": {
+            "context": 131072,
+            "output": 32768
+          }
+        }
+      }
+    }
+  }
+}
