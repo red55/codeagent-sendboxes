@@ -178,10 +178,17 @@
       },
       "models": {
         "qwen-next": {
-          "name": "QWEN-Next Model",
+          "name": "QWEN-Next",
           "limit": {
-            "context": 131072,
+            "context": 262144,
             "output": 32768
+          }
+        },
+        "qwen-3.6": {
+          "name": "QWEN-3.6",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
           }
         }
       }
