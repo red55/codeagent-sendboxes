@@ -16,7 +16,6 @@ fi
 
 check_tool() {
     local tool="$1"
-    local expected="${2:-}"
     if docker run --rm "$IMAGE" which "$tool" >/dev/null 2>&1; then
         echo "  [PASS] $tool found"
     else
