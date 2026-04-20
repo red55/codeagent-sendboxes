@@ -69,53 +69,40 @@
 
 **Dependencies:** None (first phase)
 
+**Plans:**
+- [x] `01-01-PLAN.md` — Create lint configuration files (hadolint + actionlint)
+- [x] `01-02-PLAN.md` — Create PR workflow (lint + build, no push)
+- [x] `01-03-PLAN.md` — Create release workflow (lint + build + security + push)
+- [x] `01-04-PLAN.md` — Verify all files are valid
+
+**Wave Structure:** All 4 plans in Wave 1 (parallel — no file conflicts)
+
 ---
 
 ## Phase 2: Fix Build Reliability
 
-**Goal:** Fix the critical build issues identified in the codebase analysis so CI builds actually succeed.
+**Goal:** Fix critical build issues in Dockerfiles and Makefile so all 4 image variants build successfully with `make all`, passing hadolint strict mode and health checks.
 
 **Duration:** ~1-2 hours  
 **Risk:** Low  
 
-### Tasks
+### Plans
 
-1. **Create `.dockerignore`**
-   - Exclude `.git/`, `.planning/`, `node_modules/`, `*.md`, `*.txt`
-   - Prevent build context pollution
-
-2. **Fix Go version in `golang/Dockerfile`**
-   - Change `GO_VERSION=1.26.2` to `GO_VERSION=1.23.0` (valid version)
-   - Verify download URL works
-
-3. **Pin `@latest` package tags**
-   - `base/opencode.Dockerfile`: Pin all opencode plugins to specific versions
-   - `base/qwencode.Dockerfile`: Pin `@qwen-code/qwen-code` to specific version
-   - `base/Dockerfile`: Pin `bun@latest` to specific version
-   - Remove commented-out plugin line
-
-4. **Remove unnecessary `sudo`**
-   - `golang/Dockerfile`: Remove `sudo` from all RUN instructions
-   - `ansible/Dockerfile`: Remove `sudo` from all RUN instructions
-
-5. **Add agent config validation**
-   - JSON schema validation for `base/.opencode/opencode.json`
-   - Verify plugin references match Dockerfile
-
-6. **Add image health check tests**
-   - `docker run --rm` tests for each variant
-   - Verify key tools are installed (`docker`, `node`, `python3`, `go`, `ansible`, `opencode`/`qwencode`)
-
-7. **Set `SOURCE_DATE_EPOCH`** for reproducible builds
+Plans:
+- [ ] `02-01-PLAN.md` — Create `.dockerignore` and set `SOURCE_DATE_EPOCH`
+- [ ] `02-02-PLAN.md` — Fix `base/Dockerfile`: remove `golang` apt package, pin `bun`
+- [ ] `02-03-PLAN.md` — Fix agent Dockerfiles: pin packages, remove commented line
+- [ ] `02-04-PLAN.md` — Fix tooling Dockerfiles: remove `sudo`, pin versions
+- [ ] `02-05-PLAN.md` — Create health check and config validation scripts
 
 **Acceptance Criteria:**
-- [ ] `.dockerignore` present and `.git/` excluded from build context
-- [ ] Go 1.23.0 downloads and installs successfully
+- [ ] `.dockerignore` present, `.git/` excluded from build context
+- [ ] Go 1.26.2 downloads and installs successfully
 - [ ] All `@latest` tags replaced with specific versions
 - [ ] No `sudo` in `golang/Dockerfile` or `ansible/Dockerfile`
 - [ ] `opencode.json` validates against schema
 - [ ] All 4 images pass health check tests
-- [ ] `make golang-opencode` succeeds locally after fixes
+- [ ] `make all` succeeds locally after all fixes
 
 **Dependencies:** Phase 1 (build pipeline must exist to test fixes)
 
