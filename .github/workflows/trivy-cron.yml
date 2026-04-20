@@ -1,0 +1,55 @@
+name: Trivy DB Pre-Warm
+
+on:
+  schedule:
+    # Daily at 06:00 UTC — before most CI builds start
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+permissions:
+  contents: read
+
+jobs:
+  prewarm-db:
+    name: Pre-warm Trivy DB
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Trivy DB
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: trivy-db-${{ runner.os }}-${{ hashFiles('.github/workflows/trivy-cron.yml') }}
+          restore-keys: |
+            trivy-db-${{ runner.os }}-
+
+      - name: Run Trivy to download latest DB
+        uses: aquasecurity/trivy-action@v0.35.0
+        with:
+          # Download only the vulnerability database (no image scan)
+          # This populates ~/.cache/trivy/db with the latest DB
+          image-ref: alpine:latest
+          severity: CRITICAL,HIGH
+          exit-code: "0"
+          ignore-unfixed: true
+          vuln-type: os,library
+          timeout: 10m
+
+      - name: Verify DB cache
+        run: |
+          echo "Trivy DB cache status:"
+          ls -la ~/.cache/trivy/db/ 2>/dev/null || echo "DB cache directory not found"
+          echo "Cache key: trivy-db-${{ runner.os }}"
+
+      - name: Report success
+        if: success()
+        run: echo "Trivy DB pre-warmed successfully at $(date -u)"
+
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "WARNING: Trivy DB pre-warm failed at $(date -u)"
+          echo "Next build may hit rate limits on DB download"
+          exit 0 # Don't fail the workflow — DB may still be cached from previous run
