@@ -1,0 +1,13 @@
+{
+  "workflow": "new-project",
+  "mode": "interactive",
+  "auto": false,
+  "mapper_model": "",
+  "commit_docs": true,
+  "subagent_timeout": 300000,
+  "research_domains": [],
+  "phase_count": 4,
+  "current_phase": 0,
+  "created": "2026-04-20",
+  "updated": "2026-04-20"
+}
