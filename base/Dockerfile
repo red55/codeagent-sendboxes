@@ -103,7 +103,6 @@ RUN apt-get update \
     gh \
     bc \
     default-jdk-headless \
-    golang \
     man-db \
     nodejs \
     npm \
@@ -114,7 +113,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --break-system-packages --no-cache-dir pyright uv
-RUN npm i -g bun@latest
+RUN npm i -g bun@1.3.13
 RUN chown -R agent:agent /usr/local/share/npm-global
 LABEL com.docker.sandboxes.start-docker=true
 
