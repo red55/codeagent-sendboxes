@@ -4,8 +4,8 @@
     "opencode-devcontainers",
     "opencode-pty",
     "@franlol/opencode-md-table-formatter@latest",
-    "opencode-websearch-cited@latest",
-    "opencode-conductor-plugin"
+    "opencode-conductor-plugin",
+    "opencode-websearch-cited@latest"
   ],
   "lsp": {
     "ansible": {
@@ -174,7 +174,10 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "QWEN-MBP Provider",
       "options": {
-        "baseURL": "http://192.168.151.31:8080/v1"
+        "baseURL": "http://192.168.151.31:8080/v1",
+        "websearch_cited": {
+          "model": "qwen-3.6"
+        }
       },
       "models": {
         "qwen-next": {
