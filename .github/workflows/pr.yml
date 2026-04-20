@@ -1,0 +1,104 @@
+name: PR Build Validation
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run hadolint on base/Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: base/Dockerfile
+          config: .github/lint/.hadolint.yaml
+          verbose: true
+
+      - name: Run hadolint on base/opencode.Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: base/opencode.Dockerfile
+          config: .github/lint/.hadolint.yaml
+          verbose: true
+
+      - name: Run hadolint on base/qwencode.Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: base/qwencode.Dockerfile
+          config: .github/lint/.hadolint.yaml
+          verbose: true
+
+      - name: Run hadolint on golang/Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: golang/Dockerfile
+          config: .github/lint/.hadolint.yaml
+          verbose: true
+
+      - name: Run hadolint on ansible/Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ansible/Dockerfile
+          config: .github/lint/.hadolint.yaml
+          verbose: true
+
+      - name: Run actionlint
+        uses: rhysd/actionlint@v1
+        with:
+          config-file: .github/lint/.actionlint.yaml
+
+      - name: Post actionlint results as PR comments
+        uses: reviewdog/action-actionlint@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: error
+
+  build:
+    name: Build (${{ matrix.variant }})
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [oc-go, qc-go, oc-ansible, qc-ansible]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/red55/sandbox-${{ matrix.variant }}
+          tags: |
+            type=pr,prefix=
+            type=sha,prefix=
+            type=ref,event=branch
+
+      - name: Build image
+        run: |
+          make pull
+          make all
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VER: ${{ github.sha }}
