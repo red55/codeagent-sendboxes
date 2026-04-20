@@ -1,0 +1,5 @@
+# Trivy ignore file — known false positives
+# Per D-05: Suppress Context7 Bearer token in opencode.json
+# Format: <rule-id> <path> <comment>
+# For secrets, we suppress by file path pattern
+# trivy-secret.yaml config handles the actual path-based suppression
