@@ -53,3 +53,7 @@ prune:
 
 check:
 	@bash scripts/validate-config.sh base/.opencode/opencode.json
+	@echo ""
+	@echo "Note: For health checks against built images, run:"
+	@echo "  bash scripts/healthcheck.sh <image> <variant>"
+	@echo "  variant: base, opencode, qwencode, golang, ansible"
