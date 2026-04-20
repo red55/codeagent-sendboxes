@@ -12,7 +12,7 @@
 |-------|-------|--------|--------------|
 | 1 | Foundation — Lint + Build | Planned | REQ-CI-001, REQ-CI-002, REQ-LINT-001, REQ-LINT-002, REQ-BUILD-001, REQ-BUILD-002, REQ-BUILD-003, REQ-BUILD-004 |
 | 2 | Fix Build Reliability | Planned | REQ-BUILD-005, REQ-LINT-003, REQ-TEST-001, REQ-TEST-002 |
-| 3 | Security Scanning | Planned | REQ-SEC-001, REQ-SEC-002, REQ-SEC-003 |
+| 3 | Security Scanning | Planned | REQ-SEC-001, REQ-SEC-002, REQ-SEC-003 | 3 plans |
 | 4 | Publish + Attestations | Planned | REQ-PUB-001, REQ-PUB-002, REQ-PUB-003, REQ-NFR-001, REQ-NFR-002, REQ-NFR-003 |
 
 ---
@@ -154,6 +154,13 @@ Plans:
 - [ ] Cron job runs daily and pre-warms Trivy DB
 
 **Dependencies:** Phase 2 (images must be buildable and scanned)
+
+**Plans:**
+- [ ] `03-01-PLAN.md` — Create Trivy configuration (trivy.yaml, trivy-secret.yaml, trivy-ignore)
+- [ ] `03-02-PLAN.md` — Add Trivy scanning to pr.yml and replace stub in release.yml
+- [ ] `03-03-PLAN.md` — Create trivy-cron.yml for daily DB pre-warming
+
+**Wave Structure:** Wave 1: plan 01 (config). Wave 2: plans 02+03 (both depend on 01, can run in parallel).
 
 ---
 
