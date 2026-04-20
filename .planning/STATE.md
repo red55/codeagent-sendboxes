@@ -32,7 +32,7 @@
 
 | Phase | Title | Status | Started | Completed |
 |-------|-------|--------|---------|-----------|
-| 1 | Foundation — Lint + Build | Pending | | |
+| 1 | Foundation — Lint + Build | Context gathered | 2026-04-20 | |
 | 2 | Fix Build Reliability | Pending | | |
 | 3 | Security Scanning | Pending | | |
 | 4 | Publish + Attestations | Pending | | |
@@ -47,6 +47,10 @@
 | D2 | 4-phase rollout | Separate linting, fixes, security, and publishing for clearer progress tracking | 2026-04-20 |
 | D3 | GHA cache for builds | Simpler than registry cache for single-branch workflow | 2026-04-20 |
 | D4 | Trivy for security scanning | Industry standard, SARIF output integrates with GitHub Security tab | 2026-04-20 |
+| D5 | make all in 4 matrix jobs | Preserve Makefile, gain CI parallelism | 2026-04-20 |
+| D6 | Separate pr.yml + release.yml | Cleaner separation of concerns | 2026-04-20 |
+| D7 | Strict hadolint + .hadolint.yaml | Fail on warnings, suppress false positives per-project | 2026-04-20 |
+| D8 | Simple GHA cache (type=gha) | Built-in, sufficient for project scale | 2026-04-20 |
 
 ---
 
@@ -54,7 +58,7 @@
 
 | # | Question | Owner | Status |
 |---|----------|-------|--------|
-| Q1 | Should we use docker bake for multi-image builds or individual build-push-action calls? | Dev | Open |
+| Q1 | Should we use docker bake for multi-image builds or individual build-push-action calls? | Dev | **Resolved:** Use `make all` in matrix jobs (D5) |
 | Q2 | Do we need multi-platform (arm64) support? | Dev | Out of scope for now |
 | Q3 | Should the Context7 token be rotated before publishing? | Dev | Security concern — not blocking |
 
