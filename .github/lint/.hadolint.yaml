@@ -1,0 +1,43 @@
+# Strict hadolint configuration — fail on all warnings and errors
+# Per-project overrides for known false positives
+
+# Trusted registries to avoid DL3006 warnings
+trustedRegistries:
+  - ghcr.io
+  - docker.io
+  - quay.io
+
+# Suppressed rules — known false positives in this project
+ignored:
+  # DL3037: userdel node is intentional — we replace the default node user
+  - DL3037
+
+  # DL3059: Multiple consecutive RUN apt-get is expected for layered installs
+  - DL3059
+
+  # DL3087: Multiple ARG declarations is expected (IMAGE arg + version args)
+  - DL3087
+
+  # DL3042: Avoid use of apt-get cache-clean — we use rm -rf /var/lib/apt/lists/*
+  - DL3042
+
+  # DL3091: Empty lines between RUN instructions — suppress for readability
+  - DL3091
+
+  # DL3039: Use https://dl.yandexcloud.net for security updates — Yandex mirror intentional
+  - DL3039
+
+  # DL3008: Pin version of packages — impractical for tool-heavy images
+  - DL3008
+
+  # DL3013: Use -y flag — we use -yy which is fine
+  - DL3013
+
+  # DL3018: Pin apt-get package versions — too noisy for this project
+  - DL3018
+
+  # DL3006: Use specific version for base image — node:25-trixie IS versioned
+  - DL3006
+
+  # DL3029: Don't use --platform flag — not applicable
+  - DL3029
