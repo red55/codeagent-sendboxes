@@ -7,7 +7,7 @@ OC_IMAGE := docker.io/docker/sandbox-templates:opencode-docker
 
 EXTRA_ARGS :=
 
-.PHONY: all base base-opencode base-qwencode golang-opencode golang-qwencode ansible-opencode ansible-qwencode clean prune pull
+.PHONY: all base base-opencode base-qwencode opencode qwencode golang-opencode golang-qwencode ansible-opencode ansible-qwencode clean prune pull
 
 all: ansible-opencode ansible-qwencode golang-opencode golang-qwencode
 
@@ -23,15 +23,21 @@ base-opencode:
 base-qwencode:
 	docker build -t qc-sandbox-base:$(VER) --build-arg IMAGE=$(QC_IMAGE) $(EXTRA_ARGS) base/
 	docker build -t qwencode-sandbox-base:$(VER) -f base/qwencode.Dockerfile $(EXTRA_ARGS) base/
-
+opencode: golang-opencode ansible-opencode
+# OpenCode
 golang-opencode: base-opencode
 	docker build -t $(IMG)-oc-go:$(VER) --build-arg IMAGE=opencode-sandbox-base:$(VER) $(EXTRA_ARGS) golang/
-golang-qwencode: base-qwencode
-	docker build -t $(IMG)-qc-go:$(VER) --build-arg IMAGE=qwencode-sandbox-base:$(VER) $(EXTRA_ARGS) golang/
 ansible-opencode: base-opencode
 	docker build -t $(IMG)-oc-ansible:$(VER) --build-arg IMAGE=opencode-sandbox-base:$(VER) $(EXTRA_ARGS) ansible/
+
+# QWEN Code
 ansible-qwencode: base-qwencode
 	docker build -t $(IMG)-qc-ansible:$(VER) --build-arg IMAGE=qwencode-sandbox-base:$(VER) $(EXTRA_ARGS) ansible/
+golang-qwencode: base-qwencode
+	docker build -t $(IMG)-qc-go:$(VER) --build-arg IMAGE=qwencode-sandbox-base:$(VER) $(EXTRA_ARGS) golang/
+
+qwencode: golang-qwencode ansible-qwencode
+
 clean:
 	docker rmi -f $(IMG)-oc-go:$(VER) $(IMG)-qc-go:$(VER) $(IMG)-oc-ansible:$(VER) $(IMG)-qc-ansible:$(VER) \
 	opencode-sandbox-base:$(VER) qwencode-sandbox-base:$(VER) \
