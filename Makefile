@@ -6,6 +6,8 @@ QC_IMAGE := ghcr.io/qwenlm/qwen-code:0.14
 OC_IMAGE := docker.io/docker/sandbox-templates:opencode-docker
 
 EXTRA_ARGS :=
+SOURCE_DATE_EPOCH := 1700000000
+export SOURCE_DATE_EPOCH
 
 .PHONY: all base base-opencode base-qwencode opencode qwencode golang-opencode golang-qwencode ansible-opencode ansible-qwencode clean prune pull
 
