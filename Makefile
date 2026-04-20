@@ -50,3 +50,6 @@ clean:
 prune:
 	docker buildx prune -f
 	docker image prune -f
+
+check:
+	@bash scripts/validate-config.sh base/.opencode/opencode.json
