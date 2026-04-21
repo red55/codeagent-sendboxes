@@ -214,7 +214,12 @@ Plans:
 
 **Dependencies:** Phase 3 (security scanning must be working)
 
----
+**Plans:**
+- [ ] `04-01-PLAN.md` — Add SBOM + provenance to release workflow build job
+- [ ] `04-02-PLAN.md` — Gate PR builds for fork PRs with registry push
+- [ ] `04-03-PLAN.md` — Create README with minimal CI/CD documentation
+
+**Wave Structure:** Wave 1: plans 01+02 (parallel — no file conflicts). Wave 2: plan 03 (depends on 01+02).
 
 ## Risk Register
 
