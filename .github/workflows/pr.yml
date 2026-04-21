@@ -125,6 +125,7 @@ jobs:
     name: Security Scan (${{ matrix.variant }})
     needs: build
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.fork == true
     strategy:
       fail-fast: false
       matrix:

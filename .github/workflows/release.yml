@@ -115,6 +115,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: ${{ matrix.variant == 'oc-go' || matrix.variant == 'qc-go' && 'golang/Dockerfile' || 'ansible/Dockerfile' }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
