@@ -19,45 +19,43 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN --mount=type=bind,source=./prepare-sandbox.bash,target=/tmp/prepare-sandbox.bash \
     /bin/bash -c 'source /tmp/prepare-sandbox.bash'
 
-
-USER root
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
     | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && chmod a+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
     | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-RUN apt-get update \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
+    apt-get update \
     && apt-get install -yy --no-install-recommends \
-    dnsutils \
-    docker-buildx-plugin \
-    docker-ce-cli \
-    docker-compose-plugin \
-    git \
-    jq \
-    less \
-    lsof \
-    make \
-    procps \
-    psmisc \
-    ripgrep \
-    rsync \
-    socat \
-    sudo \
-    unzip \
-    gh \
-    bc \
-    default-jdk-headless \
-    man-db \
-    nodejs \
-    npm \
-    python3 \
-    python3-pip \
-    containerd.io docker-ce \
-    unzip mc tshark sqlite3 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --break-system-packages --no-cache-dir pyright uv
-RUN npm i -g bun@1.3.13
+        dnsutils \
+        docker-buildx-plugin \
+        docker-ce-cli \
+        docker-compose-plugin \
+        git \
+        jq \
+        less \
+        lsof \
+        make \
+        procps \
+        psmisc \
+        ripgrep \
+        rsync \
+        socat \
+        gosu \
+        unzip \
+        gh \
+        bc \
+        default-jdk-headless \
+        man-db \
+        nodejs \
+        npm \
+        python3 \
+        python3-pip \
+        containerd.io docker-ce \
+        unzip mc tshark
+
+RUN --mount=type=cache,target=/root/.cache/pip pip3 install --break-system-packages pyright uv
+RUN --mount=type=cache,target=/root/.npm npm i -g bun@1.3.13
 RUN chown -R agent:agent /usr/local/share/npm-global
 LABEL com.docker.sandboxes.start-docker=true
 
