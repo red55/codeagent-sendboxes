@@ -14,7 +14,7 @@ ENV NO_PROXY=localhost,127.0.0.1,::1,172.17.0.0/16
 ENV no_proxy=${NO_PROXY}
 
 USER root
-
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN --mount=type=bind,source=./prepare-sandbox.bash,target=/tmp/prepare-sandbox.bash \
     /bin/bash -c 'source /tmp/prepare-sandbox.bash'
 
