@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM oc-sandbox-base:latest
 RUN bun install -g opencode-ai@1.14.19 \
     && mkdir -p /home/agent/.config/opencode/agents
