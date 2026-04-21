@@ -5,7 +5,8 @@ FROM docker.io/library/node:25-trixie
 ENV DEBIAN_FRONTEND=noninteractive
 
 
-RUN sed -i -E 's#https?://([a-z0-9.-]+.)?debian.org/debian#https://mirror.yandex.ru/debian#g' \
+RUN [ "$GITHUB_ACTIONS" = "true" ] || \
+    sed -i -E 's#https?://([a-z0-9.-]+.)?debian.org/debian#https://mirror.yandex.ru/debian#g' \
     /etc/apt/sources.list.d/debian.sources
 
 ENV NPM_CONFIG_PREFIX=/usr/local/share/npm-global
