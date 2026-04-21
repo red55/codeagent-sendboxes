@@ -22,35 +22,35 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run hadolint on base/Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: base/Dockerfile
           config: .github/lint/.hadolint.yaml
           verbose: true
 
       - name: Run hadolint on base/opencode.Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: base/opencode.Dockerfile
           config: .github/lint/.hadolint.yaml
           verbose: true
 
       - name: Run hadolint on base/qwencode.Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: base/qwencode.Dockerfile
           config: .github/lint/.hadolint.yaml
           verbose: true
 
       - name: Run hadolint on golang/Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: golang/Dockerfile
           config: .github/lint/.hadolint.yaml
           verbose: true
 
       - name: Run hadolint on ansible/Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: ansible/Dockerfile
           config: .github/lint/.hadolint.yaml
