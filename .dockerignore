@@ -20,6 +20,3 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
-
-# Opencode config (copied explicitly via COPY in Dockerfiles)
-.opencode/
