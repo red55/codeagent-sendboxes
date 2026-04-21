@@ -6,7 +6,7 @@ tags: [sbom, provenance, release-notes, cyclonedx]
 requires: [phase-03]
 provides: [sbom-attestation, provenance-attestation, auto-release-notes]
 affects: [workflows/release.yml]
-tech-stack.added: [sbom: true, provenance: mode=max, softprops/action-gh-release@v2]
+tech-stack.added: [sbom: true, provenance: mode=max,  softprops/action-gh-release@v3]
 patterns: [native-build-push, auto-release-notes]
 key-files.created: []
 key-files.modified: [.github/workflows/release.yml]
@@ -35,7 +35,7 @@ Added CycloneDX SBOM generation and full build provenance (mode=max) to release 
   - Added `make base` step before build
   - Added `sbom: true` and `provenance: mode=max` to docker/build-push-action@v7
   - Removed redundant `make all` step
-  - Added `release-notes` job with `softprops/action-gh-release@v2`
+  - Added `release-notes` job with ` softprops/action-gh-release@v3`
 
 ## Key Changes
 
@@ -49,7 +49,7 @@ Added CycloneDX SBOM generation and full build provenance (mode=max) to release 
 
 ### Release Notes
 - New `release-notes` job triggered on `v*` tags
-- Uses `softprops/action-gh-release@v2` with `generate_release_notes: true`
+- Uses ` softprops/action-gh-release@v3` with `generate_release_notes: true`
 - Auto-generates release notes from commit messages
 - Depends on `security` job completing (all scans pass first)
 
@@ -70,5 +70,5 @@ Added CycloneDX SBOM generation and full build provenance (mode=max) to release 
 - [x] CycloneDX SBOM format (default for sbom: true)
 - [x] GHA cache settings preserved
 - [x] `release-notes` job added with tag condition
-- [x] `softprops/action-gh-release@v2` with `generate_release_notes: true`
+- [x] ` softprops/action-gh-release@v3` with `generate_release_notes: true`
 - [x] Release job depends on `security` job

@@ -167,21 +167,21 @@ jobs:
           config: .github/lint/trivy.yaml
 
       - name: Upload vulnerability SARIF to Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-vuln-results.sarif
           category: trivy-vuln-${{ matrix.variant }}
 
       - name: Upload secret scan SARIF to Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-secret-results.sarif
           category: trivy-secret-${{ matrix.variant }}
 
       - name: Upload config scan SARIF to Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-config-results.sarif

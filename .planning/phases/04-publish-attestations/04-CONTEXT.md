@@ -82,7 +82,7 @@ Finalize the CI/CD pipeline with image attestations, SBOM generation, and produc
 ### Existing Patterns to Follow
 - **Matrix strategy:** Both workflows use `fail-fast: false` with 4 variants — reuse this pattern for release workflow.
 - **docker/build-push-action@v7:** Already used in release.yml for build + push — extend with `sbom: true` and `provenance: mode=max`.
-- **SARIF upload:** Phase 3 established pattern with `github/codeql-action/upload-sarif@v3` — follow same pattern for any new SARIF outputs.
+- **SARIF upload:** Phase 3 established pattern with `github/codeql-action/upload-sarif@v4` — follow same pattern for any new SARIF outputs.
 
 ### GitHub Actions Features to Use
 - **`docker/build-push-action@v7`:** Supports `sbom: true` and `provenance: mode=max` natively (no separate actions needed).

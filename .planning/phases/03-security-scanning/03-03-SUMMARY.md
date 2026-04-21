@@ -6,7 +6,7 @@ tags: [trivy, security, cron, db-prewarm]
 requires: [03-01]
 provides: [trivy-db-cache, rate-limit-prevention]
 affects: [workflows/trivy-cron.yml]
-tech-stack.added: [actions/cache@v4 for Trivy DB]
+tech-stack.added: [actions/cache@v5 for Trivy DB]
 patterns: [cron-schedule, cache-persistence]
 key-files.created: [.github/workflows/trivy-cron.yml]
 key-files.modified: []
@@ -36,7 +36,7 @@ Daily cron job at 06:00 UTC pre-warms Trivy vulnerability database using actions
 
 - **Schedule**: `cron: '0 6 * * *'` (daily at 06:00 UTC)
 - **Manual trigger**: `workflow_dispatch` for testing
-- **Cache**: `actions/cache@v4` with key `trivy-db-${{ runner.os }}-${{ hashFiles(...) }}`
+- **Cache**: `actions/cache@v5` with key `trivy-db-${{ runner.os }}-${{ hashFiles(...) }}`
 - **DB download**: Runs `trivy image alpine:latest` to populate cache
 - **Non-blocking**: Failure step reports warning but doesn't fail workflow
 - **Permissions**: `contents: read` only (minimal)
@@ -50,7 +50,7 @@ Daily cron job at 06:00 UTC pre-warms Trivy vulnerability database using actions
 - [x] `.github/workflows/trivy-cron.yml` exists and is valid YAML (55 lines >= 40 minimum)
 - [x] Schedule is `cron: '0 6 * * *'` (daily at 06:00 UTC)
 - [x] `workflow_dispatch` trigger present
-- [x] Uses `actions/cache@v4` with OS and workflow hash in key
+- [x] Uses `actions/cache@v5` with OS and workflow hash in key
 - [x] Runs `aquasecurity/trivy-action@v0.35.0` with `image-ref: alpine:latest`
 - [x] `exit-code: "0"` — DB download failure doesn't block
 - [x] Failure step reports warning but doesn't fail the workflow
