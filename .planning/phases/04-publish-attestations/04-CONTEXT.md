@@ -87,7 +87,7 @@ Finalize the CI/CD pipeline with image attestations, SBOM generation, and produc
 ### GitHub Actions Features to Use
 - **`docker/build-push-action@v7`:** Supports `sbom: true` and `provenance: mode=max` natively (no separate actions needed).
 - **`github/release-actions`:** Auto-generate release notes from PR titles/commits.
-- **`actions/checkout@v4`:** Standard checkout action for all workflows.
+- **`actions/checkout@v6`:** Standard checkout action for all workflows.
 
 </code_context>
 

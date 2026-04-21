@@ -1,6 +1,6 @@
 # CI/CD Pipeline for Docker-Based Sandbox Images — Research Findings
 
-**Date:** 2026-04-20  
+**Date:** 2026-04-20
 **Research Scope:** GitHub Actions Docker CI/CD patterns, linting, security scanning, testing, and reproducible builds.
 
 ---
@@ -13,7 +13,7 @@ The modern Docker CI/CD pipeline on GitHub Actions uses these official actions:
 
 | Action | Version | Purpose |
 |--------|---------|---------|
-| `docker/checkout` | v4+ | Repository checkout (or `actions/checkout@v4`) |
+| `docker/checkout` | v4+ | Repository checkout (or `actions/checkout@v6`) |
 | `docker/setup-buildx-action` | v4 | Creates BuildKit builder instance |
 | `docker/setup-qemu-action` | v4 | QEMU emulation for multi-platform builds |
 | `docker/login-action` | v4 | Registry authentication |
@@ -500,7 +500,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: docker/setup-buildx-action@v4
 
@@ -727,7 +727,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
@@ -747,7 +747,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -812,7 +812,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@v0.35.0
