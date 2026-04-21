@@ -41,7 +41,7 @@ Add Trivy vulnerability scanning, secret detection, and Dockerfile misconfigurat
 - **D-09:** Daily cron at **06:00 UTC** (`schedule: cron: '0 6 * * *'`). Pre-warms the Trivy DB cache so the first build of each day doesn't hit GitHub API rate limits. Uses `actions/cache` to persist the Trivy DB between runs.
 
 ### SARIF Upload
-- **D-10:** Trivy vulnerability scan results uploaded to GitHub Security tab via `github/codeql-action/upload-sarif@v3` (same pattern as hadolint in Phase 1). Separate SARIF uploads for image vulnerabilities and Dockerfile misconfigurations.
+- **D-10:** Trivy vulnerability scan results uploaded to GitHub Security tab via `github/codeql-action/upload-sarif@v4` (same pattern as hadolint in Phase 1). Separate SARIF uploads for image vulnerabilities and Dockerfile misconfigurations.
 - **D-11:** Secret scan results uploaded as SARIF but with `if: failure()` condition (only upload when findings exist, to avoid empty SARIF files cluttering the Security tab).
 
 ### Trivy Version
@@ -87,7 +87,7 @@ Add Trivy vulnerability scanning, secret detection, and Dockerfile misconfigurat
 ### Workflow Integration Points
 - **pr.yml** already has a `lint` job and a `build` job (matrix, 4 variants). Trivy scan job should be added as a **new job** that depends on `build` (`needs: build`). It can run in parallel across variants (same matrix pattern).
 - **release.yml** already has a `security` job stub (lines 126-154) with `exit-code: "0"` and `continue-on-error: true`. This stub MUST be replaced with a real Trivy scan. The job structure (matrix, needs: build) is correct — keep it.
-- Both workflows already use `docker/setup-buildx-action@v4`, `docker/metadata-action@v6`, and `github/codeql-action/upload-sarif@v3`. These are reusable patterns.
+- Both workflows already use `docker/setup-buildx-action@v4`, `docker/metadata-action@v6`, and `github/codeql-action/upload-sarif@v4`. These are reusable patterns.
 
 ### Existing Patterns to Follow
 - **hadolint SARIF upload** in release.yml (lines 61-67): `if: always()` condition, `category: hadolint`. Trivy SARIF upload should follow the same pattern.
