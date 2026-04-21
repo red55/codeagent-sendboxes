@@ -66,9 +66,11 @@ jobs:
           category: hadolint
 
       - name: Run actionlint
-        uses: rhysd/actionlint@v1
+        uses: reviewdog/action-actionlint@v1
         with:
-          config-file: .github/lint/.actionlint.yaml
+          reporter: github-pr-review
+          fail_level: error
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build (${{ matrix.variant }})
