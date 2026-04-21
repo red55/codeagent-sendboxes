@@ -1,20 +1,25 @@
+# syntax=docker/dockerfile:1
+# hadolint ignore=DL3007
 FROM oc-sandbox-base:latest
-RUN bun install -g opencode-ai \
+RUN --mount=type=cache,target=/root/.bun/install/cache bun install -g opencode-ai@1.14.19 \
     && mkdir -p /home/agent/.config/opencode/agents
 
-RUN opencode plugin opencode-pty@latest -g
-RUN opencode plugin @franlol/opencode-md-table-formatter@latest -g
-RUN opencode plugin opencode-conductor-plugin@latest -g
-RUN npm install -g opencode-qwencode-auth && \
-    cd /usr/local/share/npm-global/lib/node_modules/opencode-qwencode-auth && \
-    npm run build
-RUN opencode plugin @tarquinen/opencode-dcp@latest -g
-RUN bunx get-shit-done-cc --opencode --sdk --global
-#RUN opencode plugin oh-my-openagent@latest -g
-RUN opencode plugin opencode-websearch-cited@latest -g
 
 COPY --chown=agent:agent .opencode/* /home/agent/.config/opencode
 COPY --chown=agent:agent agents/* /home/agent/.config/opencode/agents/
+
+RUN --mount=type=cache,target=/root/.npm \
+    --mount=type=cache,target=/root/.bun/install/cache \
+    opencode plugin opencode-pty@0.3.4 -g && \
+    opencode plugin @franlol/opencode-md-table-formatter@0.0.6 -g && \
+    opencode plugin opencode-conductor-plugin@1.32.0 -g && \
+#   npm install -g opencode-qwencode-auth@1.3.0 && \
+#    cd /usr/local/share/npm-global/lib/node_modules/opencode-qwencode-auth && \
+#    npm run build
+    opencode plugin @tarquinen/opencode-dcp@3.1.9 -g && \
+    bunx get-shit-done-cc@1.38.1 --opencode --sdk --global && \
+    opencode plugin opencode-websearch-cited@1.2.0 -g
+
 
 VOLUME ["/home/agent/.config/opencode", "/home/agent/.local/share/opencode"]
 ENV PATH="/home/agent/.config/opencode/get-shit-done/bin:$PATH"

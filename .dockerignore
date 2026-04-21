@@ -1,0 +1,22 @@
+# Documentation (not needed in Docker build context)
+*.md
+*.txt
+*.log
+
+# Planning (not needed in Docker build context)
+.planning/
+
+# Git (not needed in Docker build context)
+.git/
+.gitignore
+
+# Node
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

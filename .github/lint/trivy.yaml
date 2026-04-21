@@ -1,0 +1,44 @@
+# Trivy centralized configuration
+# Referenced by: pr.yml, release.yml, trivy-cron.yml
+#
+# Per D-03: CRITICAL + HIGH block the build, MEDIUM is reported only
+# Per D-04: Secret and misconfiguration findings are warnings only
+# Per D-05: Suppress Context7 token in base/.opencode/opencode.json by file path
+# Per D-06: Image scan (vuln+secret) + Dockerfile config scan
+# Per REQ-SEC-001/002/003: All three scan types configured
+
+# Severity levels that block the build (exit-code: 1)
+severity:
+  - CRITICAL
+  - HIGH
+
+# Vulnerability scanning settings
+vulnerability:
+  # Scan OS packages and language libraries
+  vuln-type:
+    - os
+    - library
+  # Ignore unfixed vulnerabilities (reduces noise from Debian/Ubuntu base images)
+  ignore-unfixed: true
+
+# Secret scanning settings
+secret:
+  # Enable secret detection in image layers
+  config: .github/lint/trivy-secret.yaml
+
+# Configuration / misconfiguration scanning
+config:
+  # Check Dockerfiles for security misconfigurations
+  # Detects: NOPASSWD sudo, missing HEALTHCHECK, HTTP endpoints, etc.
+  # Per D-04: These are warnings only, never block
+  formats:
+    - json
+
+# Ignorefile for known false positives
+# Per D-05: Suppress Context7 Bearer token in base/.opencode/opencode.json
+# Trivy supports ignorefiles at: ~/.trivyignore or via --ignorefile flag
+# We create a project-level ignorefile and reference it in workflows
+ignorefile: .github/lint/trivy-ignore
+
+# Timeout for scans (prevents hanging on large images)
+timeout: 10m

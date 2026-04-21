@@ -1,0 +1,6 @@
+# actionlint configuration for GitHub Actions workflow validation
+# Used with reviewdog for PR comments (per D-06)
+
+# Checkstyle format for reviewdog compatibility
+phrases:
+  - ".*:.*: .*$"
